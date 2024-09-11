@@ -22,11 +22,13 @@ body {
     margin-left: 35px;
 } */
 
-/* Add this style to your CSS or inside a <style> tag */
+/* CSS for carousel */
 .carousel-item img {
     margin-top: 60px; /* Ensures the image maintains aspect ratio */
     margin-left: 40px;
 }
+
+
 
 .logo {
     width: 90px; /* Smaller width */

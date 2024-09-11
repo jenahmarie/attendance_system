@@ -9,87 +9,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-    <style>
-        .top-half {
-            height: 50vh; /* Full half of the screen */
-            background: url('{{ asset('images/attendancebg.jpg') }}') no-repeat center center;
-            background-size: cover;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        .search-box-container {
-            width: 80%; /* Adjust width as needed */
-            max-width: 800px; /* Maximum width */
-        }
-        .search-box-label {
-            font-size: 24px;
-            font-weight: bold;
-            color: #000000;
-            margin-bottom: 10px; /* Space between label and search bar */
-        }
-        .search-box {
-            width: 100%;
-            padding: 15px;
-            font-size: 20px;
-            border-radius: 25px; /* Rounded corners */
-            border: 2px solid #ddd; /* Border color */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
-            background-color: #fff;
-        }
-        .search-box:focus {
-            border-color: #007bff; /* Change border color on focus */
-            outline: none;
-            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.5); /* Change shadow color on focus */
-        }
-        .button-container {
-            width: 80%;
-            max-width: 800px;
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px; /* Space above buttons */
-            margin-left: 80px;
-        }
-        .btn-custom {
-            width: 45%;
-            padding: 15px;
-            font-size: 18px;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            text-transform: uppercase; /* Capitalize text */
-            font-weight: bold; /* Bold text */
-            transition: all 0.3s ease; /* Smooth transition for effects */
-        }
-        .btn-time-in {
-            background: linear-gradient(45deg, #4caf50, #81c784); /* Green gradient */
-        }
-        .btn-time-out {
-            background: linear-gradient(45deg, #f44336, #e57373); /* Red gradient */
-        }
-        .btn-custom:hover {
-            opacity: 0.9; /* Slightly transparent on hover */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
-        }
-        .bottom-half {
-            height: 50vh; /* Full half of the screen */
-            background-color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        .bottom-half h1 {
-            color: #333;
-        }
-        .bottom-half p {
-            color: #555;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/attendancepage.css') }}">
+
 </head>
 <body>
 
@@ -100,8 +21,8 @@
                 <div class="search-box-label">TIMESHEET ERUDITHE/FLIGNO</div>
                 <input type="text" class="search-box" placeholder="Search...">
                 <div class="button-container">
-                    <button class="btn-custom btn-time-in">Time In</button>
-                    <button class="btn-custom btn-time-out">Time Out</button>
+                    <button class="btn-custom btn-time-in" id="timeButton" disabled>Time In</button>
+                    {{-- <button class="btn-custom btn-time-out">Time Out</button> --}}
                 </div>
             </div>
         </div>
@@ -116,5 +37,42 @@
     <!-- Bootstrap JS (Optional) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Get the current time
+        const now = new Date();
+        const currentHour = now.getHours();
+
+        // Define the allowed time ranges
+        const timeInStartHour = 7; // 7 AM for Time In
+        const timeInEndHour = 9;   // 9 AM for Time In
+        const timeOutStartHour = 16; // 4 PM for Time Out
+        const timeOutEndHour = 19;   // 7 PM for Time Out
+
+        // Get the button element
+        const button = document.getElementById('timeButton');
+
+        // Determine button state and label based on the current time
+        if (currentHour >= timeInStartHour && currentHour < timeInEndHour) {
+            // Time In range
+            button.disabled = false;  // Enable the button if within the Time In range
+            button.textContent = 'Time In';
+            button.classList.remove('btn-time-out');
+            button.classList.add('btn-time-in');
+        } else if (currentHour >= timeOutStartHour && currentHour < timeOutEndHour) {
+            // Time Out range
+            button.disabled = false;  // Enable the button if within the Time Out range
+            button.textContent = 'Time Out';
+            button.classList.remove('btn-time-in');
+            button.classList.add('btn-time-out');
+        } else {
+            // Outside both ranges
+            button.disabled = true;   // Disable the button if outside both ranges
+            // Retain the button text based on the last valid state
+            // Ensure to keep the correct label and class as per the last valid time
+        }
+    </script>
+
+
 </body>
 </html>
