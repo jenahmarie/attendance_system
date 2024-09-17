@@ -86,3 +86,34 @@
             opacity: 0.6; /* Optional: makes the button appear more faded */
         }
 
+
+        /*CSS for dropdown*/
+
+        /* .search-box {
+            width: 200px;
+            padding: 8px;
+        } */
+
+        .dropdown-container {
+            position: relative;
+            width: 200px;
+        }
+
+        .dropdown-list {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .dropdown-list-item {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .dropdown-list-item:hover {
+            background-color: #f0f0f0;
+        }

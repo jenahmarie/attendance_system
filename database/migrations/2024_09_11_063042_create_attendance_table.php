@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('attendance', function (Blueprint $table) {
-            $table->id(); // Auto-incrementing ID
-            $table->unsignedBigInteger('employee_id'); // Ensure this is unsignedBigInteger
+            $table->engine = 'InnoDB'; // Ensure InnoDB engine
+            $table->id();
+            $table->unsignedBigInteger('employee_id');
             $table->date('date');
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();
@@ -21,7 +22,6 @@ return new class extends Migration
             $table->integer('absences')->default(0);
             $table->timestamps();
 
-    // Foreign key constraint
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
