@@ -548,10 +548,10 @@
                                                 <input type="checkbox" class="form-check-input" aria-checked="false" id="check-all"><i class="input-helper"></i></label>
                                             </div>
                                           </th>
-                                          <th>Customer</th>
-                                          <th>Company</th>
-                                          <th>Progress</th>
+                                          <th>Employee</th>
                                           <th>Status</th>
+                                          <th>Time In</th>
+                                          <th>Time Out</th>
                                         </tr>
                                       </thead>
                                       <tbody>
