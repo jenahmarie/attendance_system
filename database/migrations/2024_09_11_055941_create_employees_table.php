@@ -17,9 +17,20 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('department');
+            $table->enum('role', ['Regular', 'Intern', 'OJT'])->default('Regular');
+            $table->string('email')->unique();
+            $table->string('phone_number')->nullable();
+            $table->string('work_phone_number')->nullable();
+            // Migration file
+            $table->string('profile_image')->default('images/default profile.png');// Default profile image
+            $table->enum('sex', ['male', 'female'])->default('male');; // Add sex column with 'male' and 'female' values
+
             $table->timestamps();
         });
     }
+
+
+
 
     /**
      * Reverse the migrations.

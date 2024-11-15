@@ -18,8 +18,7 @@ return new class extends Migration
             $table->date('date');
             $table->time('time_in')->nullable();
             $table->time('time_out')->nullable();
-            $table->time('undertime')->nullable();
-            $table->integer('absences')->default(0);
+            $table->enum('status', ['present', 'absent', 'on leave'])->default('present'); // Add status column
             $table->timestamps();
 
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');

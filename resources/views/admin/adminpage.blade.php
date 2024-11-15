@@ -78,112 +78,43 @@
       </div>
      </div>
 
-     <div class="grid grid-cols-2 gap-6 mt-6">
-      <!-- Products -->
-      <div class="bg-white p-6 rounded shadow">
-       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold">
-         Daily Attendance Tracker
-        </h2>
-        <div class="flex items-center">
-         <i class="fas fa-download mr-4">
-         </i>
-         <i class="fas fa-bars">
-         </i>
+     <div class="grid grid-cols-1 gap-6 mt-6">
+      <!-- Attendance Tracker -->
+      <div class="bg-white p-6 rounded shadow flex-grow">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">
+                Daily Attendance Tracker
+            </h2>
         </div>
-       </div>
-       <div class="bg-white shadow rounded-lg p-4 mb-4">
-        <table class="w-full">
-         <thead>
-          <tr class="text-left">
-           <th class="py-2">
-            Employees
-           </th>
-           <th class="py-2">
-            Status
-           </th>
-           <th class="py-2">
-            Time In
-           </th>
-           <th class="py-2">
-            Time Out
-           </th>
-          </tr>
-         </thead>
-         <tbody>
-          <tr class="border-t">
-           <td class="py-2 flex items-center">
-            <img alt="Product Image" class="rounded-full mr-2" height="40" src="https://placehold.co/40" width="40"/>
-            Some Product
-           </td>
-           <td class="py-2">
-            $13 USD
-           </td>
-           <td class="py-2 text-green-500">
-            ↑ 12% 12,000 Sold
-           </td>
-           <td class="py-2">
-            <i class="fas fa-search">
-            </i>
-           </td>
-          </tr>
-          <tr class="border-t">
-           <td class="py-2 flex items-center">
-            <img alt="Product Image" class="rounded-full mr-2" height="40" src="https://placehold.co/40" width="40"/>
-            Another Product
-           </td>
-           <td class="py-2">
-            $29 USD
-           </td>
-           <td class="py-2 text-yellow-500">
-            ↓ 0.5% 123,234 Sold
-           </td>
-           <td class="py-2">
-            <i class="fas fa-search">
-            </i>
-           </td>
-          </tr>
-          <tr class="border-t">
-           <td class="py-2 flex items-center">
-            <img alt="Product Image" class="rounded-full mr-2" height="40" src="https://placehold.co/40" width="40"/>
-            Amazing Product
-           </td>
-           <td class="py-2">
-            $1,230 USD
-           </td>
-           <td class="py-2 text-red-500">
-            ↓ 3% 198 Sold
-           </td>
-           <td class="py-2">
-            <i class="fas fa-search">
-            </i>
-           </td>
-          </tr>
-          <tr class="border-t">
-           <td class="py-2 flex items-center">
-            <img alt="Product Image" class="rounded-full mr-2" height="40" src="https://placehold.co/40" width="40"/>
-            Perfect Item
-            <span class="ml-2 bg-red-500 text-white text-xs rounded-full px-2">
-             NEW
-            </span>
-           </td>
-           <td class="py-2">
-            $199 USD
-           </td>
-           <td class="py-2 text-green-500">
-            ↑ 63% 87 Sold
-           </td>
-           <td class="py-2">
-            <i class="fas fa-search">
-            </i>
-           </td>
-          </tr>
-         </tbody>
-        </table>
-       </div>
-      </div>
+        <div class="bg-white shadow rounded-lg p-4 mb-4">
+            <table class="w-full">
+                <thead>
+                    <tr class="text-left">
+                        <th class="py-2">Employee</th>
+                        <th class="py-2">Status</th>
+                        <th class="py-2">Time In</th>
+                        <th class="py-2">Time Out</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($attendance as $att)
+                        <tr class="border-t">
+                            <td class="py-2 flex items-center">
+                                <img alt="Profile Image" class="rounded-full mr-2" height="40" src="{{ $att->employee->profile_image  }}" width="40"/>
+                                {{ $att->employee->first_name }} {{ $att->employee->last_name }}
+                            </td>
+                            <td class="py-2">{{ ucfirst($att->status) }}</td>
+                            <td class="py-2">{{ $att->time_in ? \Carbon\Carbon::parse($att->time_in)->format('H:i') : 'N/A' }}</td>
+                            <td class="py-2">{{ $att->time_out ? \Carbon\Carbon::parse($att->time_out)->format('H:i') : 'N/A' }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
       <!-- Online Store Overview -->
-      <div class="bg-white p-6 rounded shadow">
+      {{-- <div class="bg-white p-6 rounded shadow">
        <h2 class="text-xl font-bold mb-4">
         Online Store Overview
        </h2>
@@ -225,7 +156,7 @@
      <div class="text-center text-gray-600">
       © 2023 AdminLTE. All rights reserved.
      </div>
-    </footer>
+    </footer> --}}
    </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js">

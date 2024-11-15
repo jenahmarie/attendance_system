@@ -19,6 +19,9 @@ Route::get('/search-employees', [AttendanceController::class, 'search'])->name('
 Route::post('/store-attendance', [AttendanceController::class, 'store']);
 // Route for displaying data in form
 Route::get('/admin', [AdminController::class, 'showAdminPage'])->name('admin.page');
-Route::get('/admin/allemployees', [AdminController::class, 'allEmployeesPage'])->name('employees.page');
+// Route::get('/admin', [AdminController::class, 'showAttendancePage'])->name('admin.page');
+Route::get('/admin/allemployees', [AdminController::class, 'allEmployeesPage'])->name('employee.profiles');
+Route::get('/admin/employeesprofile/{id}', [AdminController::class, 'showEmployeesProfile'])->name('employee.individual.profiles');
+
 // Route::get('/attendance/{employeeId}', 'AttendanceController@getAttendance');
 Route::get('/attendance/{employeeId}', [AttendanceController::class, 'getAttendance']);

@@ -3,6 +3,14 @@
   <title>
    Employee Attendance
   </title>
+  {{-- for sidebar --}}
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+  /* for sidebar */
+
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
   <style>
@@ -82,18 +90,42 @@
             border: 1px solid #ddd;
         }
         .profiles {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start; /* Aligns items to the left */
+        gap: 20px; /* Adds space between the cards */
+        margin-top: 20px;
+    }
+
+    .profile-card {
+        width: calc(20% - 20px); /* Each card takes up 20% of the row, minus the gap */
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        text-align: center;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* For screens with medium width (tablet-sized devices) */
+    @media (max-width: 1024px) {
         .profile-card {
-            width: 18%;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            text-align: center;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: calc(25% - 20px); /* 4 cards per row on medium screens */
         }
+    }
+
+    /* For smaller screens (mobile-sized devices) */
+    @media (max-width: 768px) {
+        .profile-card {
+            width: calc(33.33% - 20px); /* 3 cards per row on smaller screens */
+        }
+    }
+
+    /* For very small screens (mobile phones) */
+    @media (max-width: 480px) {
+        .profile-card {
+            width: calc(50% - 20px); /* 2 cards per row on very small screens */
+        }
+    }
         .profile-card.active {
             background-color: #007bff;
             color: white;
@@ -163,14 +195,10 @@
  </head>
  <body>
   <div class="container">
-   <div class="sidebar">
-    <i class="fas fa-home">
-    </i>
-    <i class="fas fa-user-friends">
-    </i>
-    <i class="fas fa-file-alt">
-    </i>
-   </div>
+
+<!-- Sidebar -->
+@include('layouts.admin.admin_sidebar_layout')
+
    <div class="content">
     <div class="header">
      <div>
@@ -185,188 +213,25 @@
       </span>
      </div>
     </div>
-    <div class="attendance">
-     <h2>
-      Attendance Month- August
-     </h2>
-     <div class="filters">
-      <label for="year">
-       Year
-      </label>
-      <select id="year">
-       <option value="2021">
-        2021
-       </option>
-      </select>
-      <label for="month">
-       Month
-      </label>
-      <select id="month">
-       <option value="aug">
-        Aug
-       </option>
-      </select>
-     </div>
-    </div>
+
     <div class="profiles">
-     <div class="profile-card">
-      <img alt="Profile picture of Jessica Goldsmith" height="60" src="https://storage.googleapis.com/a1aa/image/oMKquEGvLdJ5EtEHEVY4iotaNLTRaPnTeVeE34KzNspTjoiTA.jpg" width="60"/>
-      <h3>
-       Jessica Goldsmith
-      </h3>
-      <p>
-       Software Engineer
-      </p>
-      <button>
-       Profile Details
-      </button>
-     </div>
-     <div class="profile-card active">
-      <img alt="Profile picture of Jessica Goldsmith" height="60" src="https://storage.googleapis.com/a1aa/image/oMKquEGvLdJ5EtEHEVY4iotaNLTRaPnTeVeE34KzNspTjoiTA.jpg" width="60"/>
-      <h3>
-       Jessica Goldsmith
-      </h3>
-      <p>
-       Software Engineer
-      </p>
-      <button>
-       Profile Details
-      </button>
-     </div>
-     <div class="profile-card">
-      <img alt="Profile picture of Jessica Goldsmith" height="60" src="https://storage.googleapis.com/a1aa/image/oMKquEGvLdJ5EtEHEVY4iotaNLTRaPnTeVeE34KzNspTjoiTA.jpg" width="60"/>
-      <h3>
-       Jessica Goldsmith
-      </h3>
-      <p>
-       Software Engineer
-      </p>
-      <button>
-       Profile Details
-      </button>
-     </div>
-     <div class="profile-card">
-      <img alt="Profile picture of Jessica Goldsmith" height="60" src="https://storage.googleapis.com/a1aa/image/oMKquEGvLdJ5EtEHEVY4iotaNLTRaPnTeVeE34KzNspTjoiTA.jpg" width="60"/>
-      <h3>
-       Jessica Goldsmith
-      </h3>
-      <p>
-       Software Engineer
-      </p>
-      <button>
-       Profile Details
-      </button>
-     </div>
-     <div class="profile-card">
-      <img alt="Profile picture of Jessica Goldsmith" height="60" src="https://storage.googleapis.com/a1aa/image/oMKquEGvLdJ5EtEHEVY4iotaNLTRaPnTeVeE34KzNspTjoiTA.jpg" width="60"/>
-      <h3>
-       Jessica Goldsmith
-      </h3>
-      <p>
-       Software Engineer
-      </p>
-      <button>
-       Profile Details
-      </button>
-     </div>
+        @foreach($employees as $employee)
+            <div class="profile-card {{ $loop->first ? 'active' : '' }}">
+                @php
+                    // Set the default image based on the sex
+                    $image = $employee->sex == 'female' ? 'images/female_profile.jpg' : 'images/male_profile.jpg';
+                @endphp
+                <img alt="Profile picture of {{ $employee->first_name }} {{ $employee->last_name }}" height="60" src="{{ asset($employee->profile_image ?: $image) }}" width="60"/>
+                <h3>{{ $employee->first_name }} {{ $employee->last_name }}</h3>
+                <p>{{ $employee->department }}</p>
+                <button onclick="window.location.href='{{ route('employee.individual.profiles', ['id' => $employee->id]) }}'" class="btn btn-primary">
+                    Profile Details
+                </button>
+            </div>
+        @endforeach
     </div>
-    <div class="table-container">
-     <table>
-      <thead>
-       <tr>
-        <th>
-         Employee
-        </th>
-        <th>
-         Designation
-        </th>
-        <th>
-         Date
-        </th>
-        <th>
-         Check-in Time
-        </th>
-        <th>
-         Checkout Time
-        </th>
-        <th>
-         Details
-        </th>
-       </tr>
-      </thead>
-      <tbody>
-       <tr>
-        <td>
-         <img alt="Profile picture of John Doe" height="40" src="https://storage.googleapis.com/a1aa/image/Wf6r6DK1k902ekMFygsTCOUEf8PReENYlY4k5lPeHzDIaEVcC.jpg" width="40"/>
-         John Doe
-        </td>
-        <td>
-         Software Engineer
-        </td>
-        <td>
-         20-08-2021
-        </td>
-        <td>
-         05-12-1992
-        </td>
-        <td>
-         03008951423
-        </td>
-        <td>
-         <button>
-          View
-         </button>
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <img alt="Profile picture of John Doe" height="40" src="https://storage.googleapis.com/a1aa/image/Wf6r6DK1k902ekMFygsTCOUEf8PReENYlY4k5lPeHzDIaEVcC.jpg" width="40"/>
-         John Doe
-        </td>
-        <td>
-         Software Engineer
-        </td>
-        <td>
-         20-08-2021
-        </td>
-        <td>
-         05-12-1992
-        </td>
-        <td>
-         03008951423
-        </td>
-        <td>
-         <button>
-          View
-         </button>
-        </td>
-       </tr>
-       <tr>
-        <td>
-         <img alt="Profile picture of John Doe" height="40" src="https://storage.googleapis.com/a1aa/image/Wf6r6DK1k902ekMFygsTCOUEf8PReENYlY4k5lPeHzDIaEVcC.jpg" width="40"/>
-         John Doe
-        </td>
-        <td>
-         UI/UX Designer
-        </td>
-        <td>
-         20-08-2021
-        </td>
-        <td>
-         05-12-1992
-        </td>
-        <td>
-         03008951423
-        </td>
-        <td>
-         <button>
-          View
-         </button>
-        </td>
-       </tr>
-      </tbody>
-     </table>
-    </div>
+
+
     <div class="pagination">
      <button class="active">
       1

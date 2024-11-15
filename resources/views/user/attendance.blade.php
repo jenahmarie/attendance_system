@@ -112,10 +112,10 @@ let userAttendanceStates = {}; // Track time-in/out states per employee ID
 
 
 // Time In/Out range configuration
-const timeInStartHour = 10; // 1 PM
-const timeInEndHour = 11;   // 3 PM
-const timeOutStartHour = 12; // 3 PM
-const timeOutEndHour = 15;   // 4 PM
+const timeInStartHour = 16; // 1 PM
+const timeInEndHour = 18;   // 3 PM
+const timeOutStartHour = 18; // 3 PM
+const timeOutEndHour = 19;   // 4 PM
 
 window.onload = function () {
     updateButtonLabel(); // Call this function on page load
