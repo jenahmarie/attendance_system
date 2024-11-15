@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2024 at 07:51 AM
+-- Generation Time: Nov 15, 2024 at 06:31 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,8 +33,7 @@ CREATE TABLE `attendance` (
   `date` date NOT NULL,
   `time_in` time DEFAULT NULL,
   `time_out` time DEFAULT NULL,
-  `undertime` time DEFAULT NULL,
-  `absences` int(11) NOT NULL DEFAULT 0,
+  `status` enum('present','absent','on leave') NOT NULL DEFAULT 'present',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -43,15 +42,21 @@ CREATE TABLE `attendance` (
 -- Dumping data for table `attendance`
 --
 
-INSERT INTO `attendance` (`id`, `employee_id`, `date`, `time_in`, `time_out`, `undertime`, `absences`, `created_at`, `updated_at`) VALUES
-(36, 1, '2024-11-05', '14:33:33', '14:34:35', '00:00:08', 0, '2024-11-04 22:33:33', '2024-11-04 22:34:36'),
-(37, 2, '2024-11-05', '14:36:47', NULL, NULL, 0, '2024-11-04 22:36:47', '2024-11-04 22:36:47'),
-(38, 4, '2024-11-05', '14:42:17', NULL, NULL, 0, '2024-11-04 22:42:17', '2024-11-04 22:42:17'),
-(39, 5, '2024-11-05', '14:42:58', NULL, NULL, 0, '2024-11-04 22:42:58', '2024-11-04 22:42:58'),
-(40, 1, '2024-11-09', '12:45:37', '12:46:51', '00:00:08', 0, '2024-11-08 20:45:37', '2024-11-08 20:46:51'),
-(41, 2, '2024-11-09', '12:51:09', '12:53:18', '00:00:08', 0, '2024-11-08 20:51:09', '2024-11-08 20:53:18'),
-(42, 6, '2024-11-09', '12:51:33', '12:54:07', '00:00:08', 0, '2024-11-08 20:51:33', '2024-11-08 20:54:07'),
-(43, 5, '2024-11-09', '12:51:57', NULL, NULL, 0, '2024-11-08 20:51:57', '2024-11-08 20:51:57');
+INSERT INTO `attendance` (`id`, `employee_id`, `date`, `time_in`, `time_out`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, '2024-11-11', '16:11:41', NULL, 'present', '2024-11-11 00:11:41', '2024-11-11 00:11:41'),
+(2, 2, '2024-11-11', '16:11:48', NULL, 'present', '2024-11-11 00:11:48', '2024-11-11 00:11:48');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attendances`
+--
+
+CREATE TABLE `attendances` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -88,7 +93,12 @@ CREATE TABLE `employees` (
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `department` varchar(255) NOT NULL,
-  `role` enum('Regular','Intern','OJT') NOT NULL,
+  `role` enum('Regular','Intern','OJT') NOT NULL DEFAULT 'Regular',
+  `email` varchar(255) NOT NULL,
+  `phone_number` varchar(255) DEFAULT NULL,
+  `work_phone_number` varchar(255) DEFAULT NULL,
+  `profile_image` varchar(255) NOT NULL DEFAULT 'images/default profile.png',
+  `sex` enum('male','female') NOT NULL DEFAULT 'male',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -97,13 +107,13 @@ CREATE TABLE `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`id`, `first_name`, `last_name`, `department`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'Jenah', 'Rivero', 'OJT Trainee', 'OJT', '2024-09-16 18:01:39', '2024-09-16 18:01:39'),
-(2, 'Christian', 'Vargas', 'OJT Trainee', 'OJT', '2024-09-16 18:01:39', '2024-09-16 18:01:39'),
-(3, 'Jamaica', 'Bandong', 'OJT Trainee', 'OJT', '2024-09-16 18:01:39', '2024-09-16 18:01:39'),
-(4, 'New', 'Employee', 'New Department', 'Regular', '2024-09-16 18:06:33', '2024-09-16 18:06:33'),
-(5, 'Jennie', 'Kim', 'New Department', 'Regular', '2024-09-16 19:16:54', '2024-09-16 19:16:54'),
-(6, 'Jennifer', 'Kim', 'New Department', 'Regular', '2024-09-16 19:19:07', '2024-09-16 19:19:07');
+INSERT INTO `employees` (`id`, `first_name`, `last_name`, `department`, `role`, `email`, `phone_number`, `work_phone_number`, `profile_image`, `sex`, `created_at`, `updated_at`) VALUES
+(1, 'Jenah', 'Rivero', 'OJT Trainee', 'Regular', 'jenah@gmail.com', NULL, NULL, 'images/default profile.png', 'female', '2024-11-11 00:11:29', '2024-11-11 00:11:29'),
+(2, 'Christian', 'Vargas', 'OJT Trainee', 'Regular', 'chris@gmail.com', NULL, NULL, 'images/default profile.png', 'male', '2024-11-11 00:11:29', '2024-11-11 00:11:29'),
+(3, 'Jamaica', 'Bandong', 'OJT Trainee', 'Regular', 'jam@gmail.com', NULL, NULL, 'images/default profile.png', 'female', '2024-11-11 00:11:29', '2024-11-11 00:11:29'),
+(4, 'New', 'Employee', 'New Department', 'Regular', 'new@gmail.com', NULL, NULL, 'images/default profile.png', 'male', '2024-11-11 00:11:29', '2024-11-11 00:11:29'),
+(5, 'Jennie', 'Kim', 'New Department', 'Regular', 'jennie@gmail.com', NULL, NULL, 'images/default profile.png', 'female', '2024-11-11 00:11:29', '2024-11-11 00:11:29'),
+(6, 'Jennifer', 'Kim', 'New Department', 'Regular', 'jennifer@gmail.com', NULL, NULL, 'images/default profile.png', 'female', '2024-11-11 00:11:29', '2024-11-11 00:11:29');
 
 -- --------------------------------------------------------
 
@@ -176,9 +186,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '0001_01_01_000000_create_users_table', 1),
 (2, '0001_01_01_000001_create_cache_table', 1),
 (3, '0001_01_01_000002_create_jobs_table', 1),
-(4, '2024_09_11_055941_create_employees_table', 2),
-(5, '2024_09_11_055822_create_attendance_table', 3),
-(6, '2024_10_02_030051_add_role_to_employees_table', 4);
+(4, '2024_09_11_055941_create_employees_table', 1),
+(5, '2024_09_11_063042_create_attendance_table', 1),
+(6, '2024_09_17_053114_create_attendances_table', 1);
 
 -- --------------------------------------------------------
 
@@ -212,8 +222,10 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('1zJpiWHglVDfWb6RYLXnL3E8Mkhnl8f6dzgtHCgH', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoic3E5UWo5RElqZURQa2c0eDFuTmpzNE1hcW9GYmpQZFB0elRsQk9GdCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hdHRlbmRhbmNlLzEiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1731134445),
-('mJOoegPDLIW0jbj99cqeYRcSJsqVKA8XWRNhNwbc', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiSDR6Uk9VaVRIM3FPYWtpOHJzUm5UY0lVeVFBSWt6R3JBR1ZjVlpqOCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hdHRlbmRhbmNlLzEiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1731132567);
+('0RUK5M0gBbnqTNwpxP4iZdyD6VpExbLMMasaVlcX', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoieEg5aGRkYXF4V0R5aWs4ZUo5dmh0aVVkOTZ2WnpheWpkd21UMkxHbCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9lbXBsb3llZXNwcm9maWxlLzEiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1731315225),
+('NDH8Z3WZFABocYN1So2nTMczwLtqJ27Ocpd5CzFJ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 OPR/114.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRkV4ZHFTdEJkR0J3ZUhCak9xRFR2eWxzVkFIWHFDMExNR3FTa09RMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1731639871),
+('PeaBcCRMly5DUKVhUxfMLyBd3OiQC9V9lMC9bCgP', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUmU5ZURwbjBnMW5tc0tQaTgyY0lqeU5IVFM4eEpMbm1ib2NLcW16SiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9lbXBsb3llZXNwcm9maWxlLzEiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1731370674),
+('PR9kzlOW3M43wjGCe9GxZ1sojwmI2oIaW72EX0eV', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOE5kOVBrcXo1M2d5VnRLTWxUNGlnMGJHS2pqekR6SUJnQ0ZXbFVQUiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1731559236);
 
 -- --------------------------------------------------------
 
@@ -233,13 +245,6 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Test User', 'test@example.com', '2024-09-16 18:00:03', '$2y$12$PyGa3WYsKH4Mls6ft/xFAerDWKEhmAEtgG5VkRQx.7yENSZeSO2DO', '8GcYZQsmKO', '2024-09-16 18:00:03', '2024-09-16 18:00:03');
-
---
 -- Indexes for dumped tables
 --
 
@@ -249,6 +254,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 ALTER TABLE `attendance`
   ADD PRIMARY KEY (`id`),
   ADD KEY `attendance_employee_id_foreign` (`employee_id`);
+
+--
+-- Indexes for table `attendances`
+--
+ALTER TABLE `attendances`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `cache`
@@ -266,7 +277,8 @@ ALTER TABLE `cache_locks`
 -- Indexes for table `employees`
 --
 ALTER TABLE `employees`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `employees_email_unique` (`email`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -323,7 +335,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `attendances`
+--
+ALTER TABLE `attendances`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `employees`
@@ -353,7 +371,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
